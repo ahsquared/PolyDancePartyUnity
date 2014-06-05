@@ -1,0 +1,17 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UnityOSCListener.cs">
+    <Files>
+      <File FileName="Assets\Standard Assets\$hslcolor_211.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UnityOSCListener.cs" Line="38" Column="42" />
+      <File FileName="Assets\move.cs" Line="1" Column="1" />
+      <File FileName="Assets\MidiControl.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UnityOSCReceiver.cs" Line="1" Column="1" />
+      <File FileName="Assets\utils.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
