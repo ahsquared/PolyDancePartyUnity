@@ -1,12 +1,17 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UnityOSCListener.cs">
     <Files>
-      <File FileName="Assets\Scripts\UnityOSCListener.cs" Line="116" Column="16" />
-      <File FileName="Assets\Scripts\UnityOSCReceiver.cs" Line="1" Column="1" />
+      <File FileName="Assets\move.cs" Line="16" Column="15" />
+      <File FileName="Assets\Scripts\UnityOSCListener.cs" Line="83" Column="66" />
+      <File FileName="Assets\Scripts\UnityOSCReceiver.cs" Line="92" Column="1" />
       <File FileName="Assets\Plugins\OSC.NET\jsOSCReceiver.cs" Line="1" Column="1" />
       <File FileName="Assets\Plugins\OSC.NET\jsOSCTransmitter.cs" Line="1" Column="1" />
-      <File FileName="Assets\Standard Assets\HSLColor.cs" Line="15" Column="3" />
+      <File FileName="Assets\Standard Assets\HSLColor.cs" Line="1" Column="1" />
+      <File FileName="Assets\cyclorama.cs" Line="1" Column="1" />
+      <File FileName="Assets\Helpers.cs" Line="1" Column="1" />
+      <File FileName="Assets\CameraDolly.cs" Line="1" Column="1" />
+      <File FileName="Assets\MidiControl.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

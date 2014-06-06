@@ -15,7 +15,9 @@ public class UnityOSCListener : MonoBehaviour  {
 	public float angle = Mathf.PI / 6; //30f;
 	public float minAccelForLaunch = 6.5f;
 	private bool init = false;
-	public int counter = 0;
+
+	public int shapeCounter = 0;
+
 	float scaleFactor = 0.2f;
 	float minShapeDimension = 0.5f;
 	float maxShapeDimension = 2.5f;
@@ -73,10 +75,12 @@ public class UnityOSCListener : MonoBehaviour  {
 				string accId = accVals[3];
 				GameObject shapeToScale = GameObject.Find (accId);
 				if (shapeToScale) {
+					//move mv = shapeToScale.GetComponent<move>();
 					shapeToScale.GetComponent<move>().scaleShape(v.sqrMagnitude);
 					if ( ( x + y + z ) > minAccelForLaunch) {
 						shapeToScale.GetComponent<move>().Fling(v);
 					}
+					shapeToScale.GetComponent<move>().timeSinceDisconnected = 0f;
 					shapeToScale.GetComponent<MidiControl>().sendCC(v.sqrMagnitude);
 					// not sure about the halo look
 					//cubeToScale.transform.GetComponentInChildren<Light>().light.range = 3 * (x + y + z);
@@ -89,7 +93,7 @@ public class UnityOSCListener : MonoBehaviour  {
 		}
 
 		if (address.Contains ("create")) {
-			if (counter == 12) {
+			if (shapeCounter == 12) {
 				return;
 			}
 			string[] createVals = address.Substring (8).Split ('|');
@@ -103,18 +107,18 @@ public class UnityOSCListener : MonoBehaviour  {
 			string id = createVals[2];
 			int shapesIndex = int.Parse(createVals[0]);
 			GameObject newShape;
-			Vector3 initPos = helpers.locationOnXYCircle(counter, radius, angle);
-			int shapeCount = counter % numShapes;
+			Vector3 initPos = helpers.locationOnXYCircle(shapeCounter, radius, angle);
+			int shapeCount = shapeCounter % numShapes;
 			newShape = (GameObject) Instantiate(shapes[shapesIndex], initPos, Quaternion.identity);
-			//			if (counter % 3 == 0) {
+			//			if (shapeCounter % 3 == 0) {
 			//				newShape = (GameObject)Instantiate(shape1, initPos, Quaternion.identity);
-			//			} else if (counter % 2 == 0) {
+			//			} else if (shapeCounter % 2 == 0) {
 			//				newShape = (GameObject)Instantiate(shape2, initPos, Quaternion.identity);
 			//			} else  {
 			//				newShape = (GameObject)Instantiate(shape3, initPos, Quaternion.identity);
 			//			}
 			newShape.name = id;
-			newShape.GetComponent<MidiControl>().controlNumber = counter + 1;
+			newShape.GetComponent<MidiControl>().controlNumber = shapeCounter + 1;
 			newShape.GetComponent<move>().initPos = initPos;
 			Renderer[] shapeRenderers = newShape.GetComponentsInChildren<Renderer>();
 			foreach(Renderer renderer in shapeRenderers) {
@@ -125,7 +129,7 @@ public class UnityOSCListener : MonoBehaviour  {
 			trail.renderer.material.SetColor("_TintColor", shapeColor);
 			//bounds.Encapsulate(newShape.transform.position);
 			init = true;
-			counter++;
+			shapeCounter++;
 
 //			message = new OSCMessage("/shape", "1");
 //			transmitter = new OSCTransmitter("10.0.0.2", sendport);

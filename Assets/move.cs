@@ -12,21 +12,31 @@ public class move : MonoBehaviour {
 	private float currentSize = 0f;
 	private float kFilteringFactor = 0.1f;
 
+	public float timeToLive = 1f;
+	public float timeSinceDisconnected = 0f;
+
 	// Use this for initialization
 	void Start () {
 //		iTween.ScaleBy (gameObject, iTween.Hash ("amount", new Vector3(2f, 2f, 2f), 
 //		                                         "time", .5f, 
 //		                                         "easetype", iTween.EaseType.easeInQuint,
 //		                                         "looptype", iTween.LoopType.pingPong));
-	
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void LateUpdate () {
+		timeSinceDisconnected += Time.deltaTime;
+		if (timeSinceDisconnected > timeToLive) {
+			Debug.Log ("go away");
+			GameObject receiver = GameObject.Find ("OSCReceiver");
+			receiver.GetComponent<UnityOSCListener>().shapeCounter--;
+			Destroy(gameObject);
+		}
 	}
 
-
+	public void resetTimeLeft() {
+		//timeSinceDisconnected = 0f;
+	}
 
 	public void scaleShape(float size) {
 		float adjustedSize = Mathf.Max (1, size * sizeScaleFactor);
