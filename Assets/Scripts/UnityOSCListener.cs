@@ -89,6 +89,9 @@ public class UnityOSCListener : MonoBehaviour  {
 		}
 
 		if (address.Contains ("create")) {
+			if (counter == 12) {
+				return;
+			}
 			string[] createVals = address.Substring (8).Split ('|');
 			//Debug.Log (createVals[0] + " -- " + createVals[1] + " -- " + createVals[2]);
 			string[] hsl = createVals[1].Split(',');
