@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{E6BB579C-B698-750D-3295-783EB9F2D82B}</ProjectGuid>
+	<ProjectGuid>{4BA96134-ACDA-9597-AF4E-26A20F5FAD05}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -52,7 +52,8 @@
      <Compile Include="Assets\Plugins\OSC.NET\jsOSCReceiver.cs" />
      <Compile Include="Assets\Plugins\OSC.NET\jsOSCTransmitter.cs" />
      <Compile Include="Assets\Plugins\iTween.cs" />
-     <Compile Include="Assets\Standard Assets\$hslcolor_211.cs" />
+     <Compile Include="Assets\Standard Assets\HSLColor.cs" />
+     <Compile Include="Assets\Standard Assets\HSLTest.cs" />
      <Compile Include="Assets\Standard Assets\Image Effects (Pro Only)\BlurEffect.cs" />
      <Compile Include="Assets\Standard Assets\Image Effects (Pro Only)\ColorCorrectionEffect.cs" />
      <Compile Include="Assets\Standard Assets\Image Effects (Pro Only)\ContrastStretchEffect.cs" />

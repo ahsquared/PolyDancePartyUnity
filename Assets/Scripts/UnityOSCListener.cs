@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+using OSC.NET;
+
 public class UnityOSCListener : MonoBehaviour  {
 	//private GameObject madeCube;
 	public Quaternion rotation;
@@ -19,21 +21,25 @@ public class UnityOSCListener : MonoBehaviour  {
 	float maxShapeDimension = 2.5f;
 	Helpers helpers;
 
+	public int sendport = 3343;
+
+	private OSCTransmitter transmitter;
+	private OSCMessage message;
+
 	void Start() {
 		helpers = GameObject.Find("Helpers").GetComponent<Helpers>();
 		numShapes = shapes.Length;
-		Debug.Log (shapes[1]);
+		//Debug.Log (shapes[1]);
+
+		message = new OSCMessage("/shape", "1");
+		transmitter = new OSCTransmitter("127.0.0.1", sendport);
+		transmitter.Send(message);
+
 	}
 	public void OSCMessageReceived(OSC.NET.OSCMessage message){	
 		string address = message.Address;
 		//ArrayList args = message.Values;
 		Bounds bounds = new Bounds (Vector3.zero, new Vector3 (1, 2, 1));
-
-		// https://github.com/ellensundh#sthash.n1WHcF6t.dpuf
-
-		//oscListener.oscHandler.Send(Osc.StringToOscMessage("Your event name")); 
-	
-		//- See more at: http://www.sundh.com/blog/2013/01/send-osc-messages-from-unity/#sthash.cOVjJbPt.dpuf
 
 		if (address.Contains ("rot") && init) {
 			//Debug.Log (address);
@@ -77,27 +83,50 @@ public class UnityOSCListener : MonoBehaviour  {
 				}
 			}
 		}
+		if (address.Contains ("message") && !init) {
+			string[] messageVals = address.Substring (8).Split ('|');
+			Debug.Log(messageVals);
+		}
+
 		if (address.Contains ("create")) {
-			Debug.Log (address.Substring (8));
-			string id = address.Split ('|')[1];
+			string[] createVals = address.Substring (8).Split ('|');
+			//Debug.Log (createVals[0] + " -- " + createVals[1] + " -- " + createVals[2]);
+			string[] hsl = createVals[1].Split(',');
+			HSLColor hslColor = new HSLColor(float.Parse(hsl[0]), float.Parse(hsl[1]), float.Parse(hsl[2]));
+			//Color shapeColor = hslColor.ToRGBA();
+			string[] rgb = createVals[1].Split(',');
+			Color shapeColor = new Color(float.Parse(rgb[0])/255f, float.Parse(rgb[1])/255f, float.Parse(rgb[2])/255f);
+			Debug.Log(shapeColor);
+			string id = createVals[2];
+			int shapesIndex = int.Parse(createVals[0]);
 			GameObject newShape;
 			Vector3 initPos = helpers.locationOnXYCircle(counter, radius, angle);
 			int shapeCount = counter % numShapes;
-			Debug.Log (shapeCount);
-			newShape = (GameObject) Instantiate(shapes[shapeCount], initPos, Quaternion.identity);
-//			if (counter % 3 == 0) {
-//				newShape = (GameObject)Instantiate(shape1, initPos, Quaternion.identity);
-//			} else if (counter % 2 == 0) {
-//				newShape = (GameObject)Instantiate(shape2, initPos, Quaternion.identity);
-//			} else  {
-//				newShape = (GameObject)Instantiate(shape3, initPos, Quaternion.identity);
-//			}
+			newShape = (GameObject) Instantiate(shapes[shapesIndex], initPos, Quaternion.identity);
+			//			if (counter % 3 == 0) {
+			//				newShape = (GameObject)Instantiate(shape1, initPos, Quaternion.identity);
+			//			} else if (counter % 2 == 0) {
+			//				newShape = (GameObject)Instantiate(shape2, initPos, Quaternion.identity);
+			//			} else  {
+			//				newShape = (GameObject)Instantiate(shape3, initPos, Quaternion.identity);
+			//			}
 			newShape.name = id;
 			newShape.GetComponent<MidiControl>().controlNumber = counter + 1;
 			newShape.GetComponent<move>().initPos = initPos;
-			bounds.Encapsulate(newShape.transform.position);
+			Renderer[] shapeRenderers = newShape.GetComponentsInChildren<Renderer>();
+			foreach(Renderer renderer in shapeRenderers) {
+				renderer.material.SetColor("_Color", shapeColor);
+				renderer.material.SetColor("_SpecColor", shapeColor);
+			};
+			Transform trail = newShape.transform.Find("Trail");
+			trail.renderer.material.SetColor("_TintColor", shapeColor);
+			//bounds.Encapsulate(newShape.transform.position);
 			init = true;
 			counter++;
+
+//			message = new OSCMessage("/shape", "1");
+//			transmitter = new OSCTransmitter("10.0.0.2", sendport);
+//			transmitter.Send(message);
 		}
 	}
 

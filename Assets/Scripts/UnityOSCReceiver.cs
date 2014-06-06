@@ -10,6 +10,7 @@ public class UnityOSCReceiver : MonoBehaviour {
 	
 	private bool connected = false;
 	public int port = 8338; //MH faceShiftOSC default port
+
 	private OSCReceiver receiver;
 	private Thread thread;
 	
